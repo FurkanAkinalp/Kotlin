@@ -1,0 +1,56 @@
+fun gorselSec(view: View){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)!= PackageManager.PERMISSION_GRANTED)
+            {
+                //izin verilmemiş, izin istenmeli
+                if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES))
+                {
+                    //snackbar gösterilmesi lazım, kullanıcıdan neden izin istenildiğimizi bir kez daha söylerek izin istememiz lazım
+                    Snackbar.make(view,"Galeriye ulaşp görsel seçmemiz lazım!",Snackbar.LENGTH_INDEFINITE).setAction(
+                        "İzin Ver",
+                        View.OnClickListener {
+                            //izin istenicek
+                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                        }).show()
+                }
+                else{
+                    //izin istenicek
+                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                }
+            }
+            else
+            {
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+            }
+        }
+        else
+        {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
+            {
+                //izin verilmemiş, izin istenmeli
+                if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE))
+                {
+                    //snackbar gösterilmesi lazım, kullanıcıdan neden izin istenildiğimizi bir kez daha söylerek izin istememiz lazım
+                    Snackbar.make(view,"Galeriye ulaşp görsel seçmemiz lazım!",Snackbar.LENGTH_INDEFINITE).setAction(
+                        "İzin Ver",
+                        View.OnClickListener {
+                            //izin istenicek
+                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }).show()
+                }
+                else{
+                    //izin istenicek
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
+            else
+            {
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+            }
+        }
+
+    }
